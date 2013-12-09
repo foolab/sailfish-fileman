@@ -60,6 +60,7 @@ Page {
 
                 MenuItem {
                     text: qsTr("Remove")
+                    onClicked: menu.parent.remove()
                 }
             }
         }
@@ -87,6 +88,11 @@ Page {
             text: fileName
             height: menuOpen ? Theme.itemSizeSmall + mainView.contextMenu.height : Theme.itemSizeSmall
             property bool menuOpen: mainView.contextMenu != null && mainView.contextMenu.parent === delegate
+
+            function remove() {
+                remorse.execute(delegate, qsTr("Remove"), function() { helper.remove(filePath) } )
+            }
+
             onClicked: {
                 if (fileIsDir) {
                     fileModel.folder = "file://" + filePath
@@ -106,6 +112,8 @@ Page {
 
                 mainView.contextMenu.show(delegate)
             }
+
+            RemorseItem { id: remorse }
         }
     }
 }

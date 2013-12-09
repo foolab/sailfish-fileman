@@ -19,15 +19,21 @@
 
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QQmlContext>
 #include <QQmlError>
 #include <MDeclarativeCache>
 #include <QDebug>
+#include "helper.h"
 
 Q_DECL_EXPORT
 int main(int argc, char *argv[]) {
   QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
   QQuickView *view = MDeclarativeCache::qQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
+
+  Helper helper;
+  view->rootContext()->setContextProperty("helper", &helper);
+
   view->setSource(QUrl("qrc:///main.qml"));
 
   if (view->status() == QQuickView::Error) {
