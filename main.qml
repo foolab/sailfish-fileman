@@ -24,4 +24,6 @@ ApplicationWindow {
     initialPage: Component {
         FolderListPage {}
     }
+
+    cover: undefined
 }
