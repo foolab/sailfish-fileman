@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
   QQuickView *view = MDeclarativeCache::qQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
-  view->setSource(QUrl("main.qml"));
+  view->setSource(QUrl("qrc:///main.qml"));
 
   if (view->status() == QQuickView::Error) {
     qCritical() << "Errors loading QML:";
