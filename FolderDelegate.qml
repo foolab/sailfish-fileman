@@ -12,22 +12,24 @@ BackgroundItem {
 
     Image {
         id: icon
+        width: Theme.itemSizeSmall
+        height: Theme.itemSizeSmall
+
         anchors {
             top: parent.top
             left: parent.left
-            bottom: parent.bottom
         }
     }
 
     Label {
         id: label
         truncationMode: TruncationMode.Fade
+        height: Theme.itemSizeSmall
 
         anchors {
             top: parent.top
             right: parent.right
             left: icon.right
-            bottom: parent.bottom
             leftMargin: Theme.paddingSmall
         }
 

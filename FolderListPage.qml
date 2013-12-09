@@ -19,6 +19,7 @@ Page {
     SilicaListView {
         anchors.fill: parent
         id: mainView
+        property Item contextMenu
 
         PullDownMenu {
 /*
@@ -33,6 +34,18 @@ Page {
             MenuItem {
                 text: qsTr("Home")
                 onClicked: fileModel.folder = "file:///home/nemo"
+            }
+        }
+
+        Component {
+            id: contextMenuComponent
+
+            ContextMenu {
+                id: menu
+
+                MenuItem {
+                    text: qsTr("Remove")
+                }
             }
         }
 
@@ -54,15 +67,29 @@ Page {
         model: fileModel
 
         delegate: FolderDelegate {
+            id: delegate
             iconSource: fileIsDir ? "image://theme/icon-m-folder" : "image://theme/icon-m-document"
             text: fileName
-
+            height: menuOpen ? Theme.itemSizeSmall + mainView.contextMenu.height : Theme.itemSizeSmall
+            property bool menuOpen: mainView.contextMenu != null && mainView.contextMenu.parent === delegate
             onClicked: {
                 if (fileIsDir) {
                     fileModel.folder = "file://" + filePath
                 } else {
                     Qt.openUrlExternally("file://" + filePath)
                 }
+            }
+
+            onPressAndHold: {
+                if (fileIsDir) {
+                    return
+                }
+
+                if (!mainView.contextMenu) {
+                    mainView.contextMenu = contextMenuComponent.createObject(mainView)
+                }
+
+                mainView.contextMenu.show(delegate)
             }
         }
     }
